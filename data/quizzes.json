@@ -1,0 +1,863 @@
+[
+  {
+    "id": "car_001",
+    "category": "car",
+    "answer": "덤프트럭",
+    "acceptedAnswers": ["덤프트럭", "덤프 트럭"],
+    "hints": [
+      "나는 뒤에 커다란 바구니가 있어요.",
+      "나는 공사장에서 흙과 모래를 실어 날라요.",
+      "짐칸을 번쩍 들어 올려서 짐을 쏟아낼 수 있어요."
+    ],
+    "imageName": "dump_truck"
+  },
+  {
+    "id": "car_002",
+    "category": "car",
+    "answer": "소방차",
+    "acceptedAnswers": ["소방차", "소방 자동차"],
+    "hints": [
+      "나는 빨간색인 경우가 많아요.",
+      "불이 나면 사이렌을 울리며 빠르게 달려가요.",
+      "긴 사다리와 호스로 불을 꺼요."
+    ],
+    "imageName": "fire_truck"
+  },
+  {
+    "id": "car_003",
+    "category": "car",
+    "answer": "경찰차",
+    "acceptedAnswers": ["경찰차"],
+    "hints": [
+      "나는 파란불과 빨간불이 반짝여요.",
+      "나쁜 일을 하는 사람을 잡으러 달려가요.",
+      "사이렌 소리를 내며 도로를 달려요."
+    ],
+    "imageName": "police_car"
+  },
+  {
+    "id": "car_004",
+    "category": "car",
+    "answer": "구급차",
+    "acceptedAnswers": ["구급차", "앰뷸런스"],
+    "hints": [
+      "나는 하얀색이고 빨간 표시가 있어요.",
+      "아픈 사람을 병원으로 빠르게 데려다줘요.",
+      "삐뽀삐뽀 소리를 내며 달려요."
+    ],
+    "imageName": "ambulance"
+  },
+  {
+    "id": "car_005",
+    "category": "car",
+    "answer": "포크레인",
+    "acceptedAnswers": ["포크레인", "굴착기"],
+    "hints": [
+      "나는 커다란 팔과 뾰족한 삽이 있어요.",
+      "땅을 파고 흙을 퍼올려요.",
+      "공사장에서 아주 힘이 세요."
+    ],
+    "imageName": "excavator"
+  },
+  {
+    "id": "car_006",
+    "category": "car",
+    "answer": "불도저",
+    "acceptedAnswers": ["불도저"],
+    "hints": [
+      "나는 앞에 커다랗고 넓은 판이 있어요.",
+      "그 판으로 흙과 돌을 밀어요.",
+      "특별한 바퀴 대신 무한궤도로 움직여요."
+    ],
+    "imageName": "bulldozer"
+  },
+  {
+    "id": "car_007",
+    "category": "car",
+    "answer": "크레인",
+    "acceptedAnswers": ["크레인"],
+    "hints": [
+      "나는 아주 길고 높은 팔이 있어요.",
+      "무거운 물건을 위로 번쩍 들어 올려요.",
+      "높은 건물을 지을 때 자주 볼 수 있어요."
+    ],
+    "imageName": "crane"
+  },
+  {
+    "id": "car_008",
+    "category": "car",
+    "answer": "트랙터",
+    "acceptedAnswers": ["트랙터"],
+    "hints": [
+      "나는 농장에서 일해요.",
+      "뒤에 커다란 바퀴가 있고 여러 도구를 매달 수 있어요.",
+      "밭을 갈고 씨앗을 심는 걸 도와줘요."
+    ],
+    "imageName": "tractor"
+  },
+  {
+    "id": "car_009",
+    "category": "car",
+    "answer": "버스",
+    "acceptedAnswers": ["버스"],
+    "hints": [
+      "나는 아주 길고 커요.",
+      "많은 사람들을 한 번에 태우고 다녀요.",
+      "정해진 길을 따라 정류장마다 멈춰요."
+    ],
+    "imageName": "bus"
+  },
+  {
+    "id": "car_010",
+    "category": "car",
+    "answer": "택시",
+    "acceptedAnswers": ["택시"],
+    "hints": [
+      "나는 손님을 태우고 원하는 곳으로 데려다줘요.",
+      "지붕 위에 작은 표시등이 달려 있어요.",
+      "타면 요금을 내야 해요."
+    ],
+    "imageName": "taxi"
+  },
+  {
+    "id": "car_011",
+    "category": "car",
+    "answer": "준설차",
+    "acceptedAnswers": ["준설차"],
+    "hints": [
+      "나는 긴 호스를 가지고 있어요.",
+      "내가 가진 호스로 도로 밑 하수구를 깨끗하게 청소해요."
+    ],
+    "imageName": "dredger"
+  },
+  {
+    "id": "car_012",
+    "category": "car",
+    "answer": "정설차",
+    "acceptedAnswers": ["정설차"],
+    "hints": [
+      "나는 스키장에서 눈을 판판하게 다져줘요.",
+      "울퉁불퉁한 눈길을 매끈하게 만들어요."
+    ],
+    "imageName": "snow_groomer"
+  },
+  {
+    "id": "car_013",
+    "category": "car",
+    "answer": "청항선",
+    "acceptedAnswers": ["청항선"],
+    "hints": [
+      "나는 바다나 항구에 떠 있는 쓰레기를 걷어내요.",
+      "나는 집게도 달려 있어요",
+      "항구를 깨끗하게 지켜주는 배예요."
+    ],
+    "imageName": "harbor_cleaning_boat"
+  },
+  {
+    "id": "car_014",
+    "category": "car",
+    "answer": "로드롤러",
+    "acceptedAnswers": ["로드롤러"],
+    "hints": [
+      "나는 무거운 롤러를 가지고 있어요.",
+      "롤러로 새로 깐 아스팔트를 단단하게 다져요."
+    ],
+    "imageName": "road_roller"
+  },
+  {
+    "id": "car_015",
+    "category": "car",
+    "answer": "카캐리어",
+    "acceptedAnswers": ["카캐리어", "캐리어카"],
+    "hints": [
+      "나는 한 번에 자동차를 여러 대 싣고 다닐 수 있어요.",
+      "새 차를 공장에서 판매점까지 옮겨줘요."
+    ],
+    "imageName": "car_carrier"
+  },
+  {
+    "id": "car_016",
+    "category": "car",
+    "answer": "캠핑카",
+    "acceptedAnswers": ["캠핑카"],
+    "hints": [
+      "나는 자동차 안에 침대와 부엌이 있어요.",
+      "여행 다니면서 그 안에서 자고 먹을 수 있어요."
+    ],
+    "imageName": "camper_van"
+  },
+  {
+    "id": "car_017",
+    "category": "car",
+    "answer": "이동도서관",
+    "acceptedAnswers": ["이동도서관"],
+    "hints": [
+      "나는 안에 책이 가득 들어있어요.",
+      "책을 빌리기 힘든 곳까지 직접 찾아가요."
+    ],
+    "imageName": "mobile_library"
+  },
+  {
+    "id": "car_018",
+    "category": "car",
+    "answer": "이동목욕차",
+    "acceptedAnswers": ["이동목욕차"],
+    "hints": [
+      "나는 안에 목욕할 수 있는 시설이 있어요.",
+      "거동이 불편한 어르신들을 찾아가 목욕을 도와드려요."
+    ],
+    "imageName": "mobile_bath_vehicle"
+  },
+  {
+    "id": "car_019",
+    "category": "car",
+    "answer": "집게차",
+    "acceptedAnswers": ["집게차"],
+    "hints": [
+      "나는 커다란 집게 팔이 있어요.",
+      "그 집게로 폐기물이나 나뭇가지를 집어 올려요."
+    ],
+    "imageName": "grapple_truck"
+  },
+  {
+    "id": "car_020",
+    "category": "car",
+    "answer": "방역차",
+    "acceptedAnswers": ["방역차"],
+    "hints": [
+      "나는 뒤로 하얀 연기 같은 소독약을 뿌려요.",
+      "모기나 해충을 없애기 위해 동네를 돌아다녀요."
+    ],
+    "imageName": "disinfection_vehicle"
+  },
+  {
+    "id": "car_021",
+    "category": "car",
+    "answer": "냉동차",
+    "acceptedAnswers": ["냉동차"],
+    "hints": [
+      "나는 짐칸 안이 아주 차가워요.",
+      "음식이 상하지 않도록 차갑게 유지하며 옮겨요."
+    ],
+    "imageName": "refrigerated_truck"
+  },
+  {
+    "id": "car_022",
+    "category": "car",
+    "answer": "기차",
+    "acceptedAnswers": ["기차"],
+    "hints": [
+      "나는 긴 철길 위를 달려요.",
+      "여러 칸을 길게 연결해서 많은 사람을 태워요."
+    ],
+    "imageName": "train"
+  },
+  {
+    "id": "car_023",
+    "category": "car",
+    "answer": "건초곤포기",
+    "acceptedAnswers": ["건초곤포기", "곤포기"],
+    "hints": [
+      "나는 농장에서 풀을 동그랗게 돌돌 말아줘요.",
+      "말린 풀을 커다란 롤 모양으로 묶어요."
+    ],
+    "imageName": "hay_baler"
+  },
+  {
+    "id": "car_024",
+    "category": "car",
+    "answer": "레이싱카",
+    "acceptedAnswers": ["레이싱카", "경주용 자동차"],
+    "hints": [
+      "나는 아주 빠르게 달리도록 만들어졌어요.",
+      "경주 트랙에서 다른 차들과 순위를 겨뤄요."
+    ],
+    "imageName": "racing_car"
+  },
+  {
+    "id": "car_025",
+    "category": "car",
+    "answer": "견인차",
+    "acceptedAnswers": ["견인차"],
+    "hints": [
+      "나는 고장 나거나 사고 난 차를 끌고 가요.",
+      "뒤에 다른 차를 매달 수 있는 장치가 있어요."
+    ],
+    "imageName": "tow_truck"
+  },
+  {
+    "id": "car_026",
+    "category": "car",
+    "answer": "오토바이",
+    "acceptedAnswers": ["오토바이"],
+    "hints": [
+      "나는 바퀴가 두 개예요.",
+      "음식을 배달하기도 해요",
+      "타는 사람은 헬멧을 꼭 써야 해요."
+    ],
+    "imageName": "motorcycle"
+  },
+  {
+    "id": "car_027",
+    "category": "car",
+    "answer": "2층버스",
+    "acceptedAnswers": ["2층버스", "이층버스"],
+    "hints": [
+      "나는 버스인데 위아래로 두 층이 있어요.",
+      "위층에 올라가면 창밖 풍경이 더 잘 보여요."
+    ],
+    "imageName": "double_decker_bus"
+  },
+  {
+    "id": "car_028",
+    "category": "car",
+    "answer": "레일바이크",
+    "acceptedAnswers": ["레일바이크"],
+    "hints": [
+      "나는 기찻길 위를 페달을 밟아 달려요.",
+      "자전거처럼 발로 굴려서 움직여요."
+    ],
+    "imageName": "rail_bike"
+  },
+  {
+    "id": "car_029",
+    "category": "car",
+    "answer": "루지",
+    "acceptedAnswers": ["루지"],
+    "hints": [
+      "나는 언덕길을 따라 미끄러지듯 내려가요.",
+      "엔진 없이 내리막의 힘만으로 달려요."
+    ],
+    "imageName": "luge_cart"
+  },
+  {
+    "id": "car_030",
+    "category": "car",
+    "answer": "공항철도",
+    "acceptedAnswers": ["공항철도"],
+    "hints": [
+      "나는 공항까지 사람들을 태워다 주는 기차예요.",
+      "무거운 캐리어를 든 사람들이 많이 타요."
+    ],
+    "imageName": "airport_railroad"
+  },
+  {
+    "id": "car_031",
+    "category": "car",
+    "answer": "헬리콥터",
+    "acceptedAnswers": ["헬리콥터", "헬기"],
+    "hints": [
+      "나는 날개가 빙글빙글 돌아가며 하늘을 날아요.",
+      "활주로 없이도 제자리에서 뜨고 내릴 수 있어요."
+    ],
+    "imageName": "helicopter"
+  },
+  {
+    "id": "car_032",
+    "category": "car",
+    "answer": "푸드트럭",
+    "acceptedAnswers": ["푸드트럭"],
+    "hints": [
+      "나는 자동차 안에 작은 주방이 있어요.",
+      "길거리에서 음식을 만들어 팔아요."
+    ],
+    "imageName": "food_truck"
+  },
+  {
+    "id": "car_033",
+    "category": "car",
+    "answer": "쓰레기수거차",
+    "acceptedAnswers": ["쓰레기수거차", "쓰레기차"],
+    "hints": [
+      "나는 동네를 돌아다니며 쓰레기봉투를 실어요.",
+      "뒤쪽 짐칸을 눌러서 쓰레기를 꾹꾹 압축해요."
+    ],
+    "imageName": "garbage_truck"
+  },
+  {
+    "id": "car_034",
+    "category": "car",
+    "answer": "터널청소차",
+    "acceptedAnswers": ["터널청소차"],
+    "hints": [
+      "나는 어두운 터널 안을 다니며 벽과 천장을 씻어줘요.",
+      "물을 뿌려서 먼지와 매연을 깨끗이 닦아내요."
+    ],
+    "imageName": "tunnel_cleaning_vehicle"
+  },
+  {
+    "id": "car_035",
+    "category": "car",
+    "answer": "활어차",
+    "acceptedAnswers": ["활어차", "활어운반차"],
+    "hints": [
+      "나는 짐칸에 물이 가득한 커다란 통이 있어요.",
+      "살아있는 물고기를 싣고 시장까지 옮겨요."
+    ],
+    "imageName": "live_fish_truck"
+  },
+  {
+    "id": "car_036",
+    "category": "car",
+    "answer": "레미콘",
+    "acceptedAnswers": ["레미콘", "레미콘차"],
+    "hints": [
+      "나는 등에 커다란 통이 있고 그 통이 빙글빙글 돌아가요.",
+      "그 안에서 시멘트와 물, 모래를 섞어 굳지 않게 옮겨요."
+    ],
+    "imageName": "concrete_mixer_truck"
+  },
+  {
+    "id": "car_037",
+    "category": "car",
+    "answer": "사파리카",
+    "acceptedAnswers": ["사파리카"],
+    "hints": [
+      "나는 동물원이나 초원에서 사람들을 태우고 다녀요.",
+      "창문이 크게 뚫려있어서 동물을 가까이 볼 수 있어요."
+    ],
+    "imageName": "safari_car"
+  },
+  {
+    "id": "car_038",
+    "category": "car",
+    "answer": "수륙양용버스",
+    "acceptedAnswers": ["수륙양용버스"],
+    "hints": [
+      "나는 도로도 달리고 물 위도 떠서 갈 수 있어요.",
+      "관광객들을 태우고 육지에서 강이나 바다로 그대로 들어가요."
+    ],
+    "imageName": "amphibious_bus"
+  },
+  {
+    "id": "car_039",
+    "category": "car",
+    "answer": "잡목제거차",
+    "acceptedAnswers": ["잡목제거차"],
+    "hints": [
+      "나는 도로 옆에 자란 풀과 나뭇가지를 정리해줘요.",
+      "옆에 달린 칼날 같은 장치를 돌려서 잘라내요."
+    ],
+    "imageName": "brush_cutter_vehicle"
+  },
+  {
+    "id": "car_040",
+    "category": "car",
+    "answer": "마필운송차",
+    "acceptedAnswers": ["마필운송차", "말운반차"],
+    "hints": [
+      "나는 짐칸 안에 말이 편하게 탈 수 있게 되어 있어요.",
+      "경마장이나 목장으로 말을 옮겨줘요."
+    ],
+    "imageName": "horse_transport_truck"
+  },
+  {
+    "id": "car_041",
+    "category": "car",
+    "answer": "고소작업차",
+    "acceptedAnswers": ["고소작업차", "스카이차"],
+    "hints": [
+      "나는 사람이 탈 수 있는 바구니가 긴 팔 끝에 달려 있어요.",
+      "그 바구니를 높이 들어 올려서 전깃줄이나 가로수를 손질해요."
+    ],
+    "imageName": "aerial_work_platform_truck"
+  },
+  {
+    "id": "car_042",
+    "category": "car",
+    "answer": "잠수함",
+    "acceptedAnswers": ["잠수함"],
+    "hints": [
+      "나는 물속 깊이 들어가서 다닐 수 있어요.",
+      "창문 대신 잠망경으로 바깥을 살펴봐요."
+    ],
+    "imageName": "submarine"
+  },
+  {
+    "id": "car_043",
+    "category": "car",
+    "answer": "탱크로리",
+    "acceptedAnswers": ["탱크로리", "유조차"],
+    "hints": [
+      "나는 등에 커다랗고 둥근 탱크를 싣고 다녀요.",
+      "기름이나 액체를 가득 채워서 옮겨요."
+    ],
+    "imageName": "tank_lorry"
+  },
+  {
+    "id": "car_044",
+    "category": "car",
+    "answer": "택배차",
+    "acceptedAnswers": ["택배차"],
+    "hints": [
+      "나는 여러 집에 물건을 하나씩 배달해줘요.",
+      "짐칸 안에 상자들이 가득 쌓여 있어요."
+    ],
+    "imageName": "delivery_truck"
+  },
+  {
+    "id": "car_045",
+    "category": "car",
+    "answer": "트레일러",
+    "acceptedAnswers": ["트레일러"],
+    "hints": [
+      "나는 앞부분과 뒤에 긴 짐칸이 따로 연결되어 있어요.",
+      "아주 크고 무거운 짐을 멀리까지 실어 날라요."
+    ],
+    "imageName": "trailer"
+  },
+  {
+    "id": "car_046",
+    "category": "car",
+    "answer": "열기구",
+    "acceptedAnswers": ["열기구"],
+    "hints": [
+      "나는 커다란 풍선 아래에 바구니가 매달려 있어요.",
+      "뜨거운 공기의 힘으로 하늘로 두둥실 떠올라요."
+    ],
+    "imageName": "hot_air_balloon"
+  },
+  {
+    "id": "car_047",
+    "category": "car",
+    "answer": "리무진",
+    "acceptedAnswers": ["리무진"],
+    "hints": [
+      "나는 몸통이 아주 길게 늘어난 고급 자동차예요.",
+      "결혼식이나 특별한 행사에서 자주 타요."
+    ],
+    "imageName": "limousine"
+  },
+  {
+    "id": "car_048",
+    "category": "car",
+    "answer": "콤바인",
+    "acceptedAnswers": ["콤바인"],
+    "hints": [
+      "나는 논이나 밭에서 다 자란 곡식을 한 번에 베고 거둬요.",
+      "앞부분에 커다란 날이 빙글빙글 돌아가요."
+    ],
+    "imageName": "combine_harvester"
+  },
+  {
+    "id": "car_049",
+    "category": "car",
+    "answer": "중계차",
+    "acceptedAnswers": ["중계차", "방송중계차"],
+    "hints": [
+      "나는 지붕에 커다란 안테나가 달려 있어요.",
+      "방송국 대신 현장에 나가서 생방송 화면을 보내줘요."
+    ],
+    "imageName": "broadcast_van"
+  },
+  {
+    "id": "car_050",
+    "category": "car",
+    "answer": "고기잡이배",
+    "acceptedAnswers": ["고기잡이배"],
+    "hints": [
+      "나는 바다에 나가 그물을 던져 물고기를 잡아요.",
+      "잡은 물고기를 배 안에 가득 싣고 항구로 돌아와요."
+    ],
+    "imageName": "fishing_boat"
+  },
+  {
+    "id": "car_051",
+    "category": "car",
+    "answer": "유람선",
+    "acceptedAnswers": ["유람선"],
+    "hints": [
+      "나는 사람들을 태우고 강이나 바다를 구경시켜줘요.",
+      "커다랗고 화려하게 꾸며져 있어요."
+    ],
+    "imageName": "cruise_ship"
+  },
+  {
+    "id": "car_052",
+    "category": "car",
+    "answer": "케이블카",
+    "acceptedAnswers": ["케이블카"],
+    "hints": [
+      "나는 굵은 줄에 매달려서 하늘을 가로질러 움직여요.",
+      "높은 산이나 건물 사이를 이어줘요."
+    ],
+    "imageName": "cable_car"
+  },
+  {
+    "id": "car_053",
+    "category": "car",
+    "answer": "요트",
+    "acceptedAnswers": ["요트"],
+    "hints": [
+      "나는 하얀 돛을 달고 바람의 힘으로도 움직일 수 있어요.",
+      "바다에서 여유롭게 즐기는 배예요."
+    ],
+    "imageName": "yacht"
+  },
+  {
+    "id": "car_054",
+    "category": "car",
+    "answer": "청소차",
+    "acceptedAnswers": ["청소차", "도로청소차"],
+    "hints": [
+      "나는 도로 위의 먼지와 쓰레기를 빙글빙글 도는 솔로 쓸어 담아요.",
+      "새벽에 거리를 깨끗하게 청소해줘요."
+    ],
+    "imageName": "street_sweeper"
+  },
+  {
+    "id": "car_055",
+    "category": "car",
+    "answer": "스노모빌",
+    "acceptedAnswers": ["스노모빌"],
+    "hints": [
+      "나는 바퀴 대신 눈 위를 달리는 특별한 장치가 있어요.",
+      "눈 덮인 산이나 들판을 씽씽 달려요."
+    ],
+    "imageName": "snowmobile"
+  },
+  {
+    "id": "car_056",
+    "category": "car",
+    "answer": "카약",
+    "acceptedAnswers": ["카약"],
+    "hints": [
+      "나는 노를 저어서 움직이는 작은 배예요.",
+      "한 사람이나 두 사람이 좁은 자리에 앉아서 타요."
+    ],
+    "imageName": "kayak"
+  },
+  {
+    "id": "dinosaur_001",
+    "category": "dinosaur",
+    "answer": "티라노사우루스",
+    "acceptedAnswers": ["티라노사우루스", "티렉스", "T렉스"],
+    "hints": [
+      "나는 아주 큰 육식 공룡이에요.",
+      "머리가 크고 이빨이 아주 날카로워요.",
+      "하지만 앞다리는 짧아서 잘 쓰지 못해요."
+    ],
+    "imageName": "tyrannosaurus"
+  },
+  {
+    "id": "dinosaur_002",
+    "category": "dinosaur",
+    "answer": "트리케라톱스",
+    "acceptedAnswers": ["트리케라톱스"],
+    "hints": [
+      "나는 얼굴에 커다란 뿔이 세 개 있어요.",
+      "머리 뒤에는 커다란 방패 같은 뼈가 있어요.",
+      "나는 풀을 먹는 초식 공룡이에요."
+    ],
+    "imageName": "triceratops"
+  },
+  {
+    "id": "dinosaur_003",
+    "category": "dinosaur",
+    "answer": "스테고사우루스",
+    "acceptedAnswers": ["스테고사우루스"],
+    "hints": [
+      "나는 등에 커다란 판 모양의 뼈들이 줄지어 있어요.",
+      "꼬리에는 뾰족한 가시가 달려 있어요.",
+      "나는 몸이 크지만 머리는 아주 작아요."
+    ],
+    "imageName": "stegosaurus"
+  },
+  {
+    "id": "dinosaur_004",
+    "category": "dinosaur",
+    "answer": "브라키오사우루스",
+    "acceptedAnswers": ["브라키오사우루스"],
+    "hints": [
+      "나는 목이 아주 길어요.",
+      "키가 커서 높은 나무 꼭대기 잎도 먹을 수 있어요.",
+      "나는 몸집이 아주 큰 초식 공룡이에요."
+    ],
+    "imageName": "brachiosaurus"
+  },
+  {
+    "id": "dinosaur_005",
+    "category": "dinosaur",
+    "answer": "스피노사우루스",
+    "acceptedAnswers": ["스피노사우루스"],
+    "hints": [
+      "나는 등에 커다란 돛처럼 생긴 뼈가 있어요.",
+      "나는 물고기를 잡아먹기도 해요.",
+      "나는 육식 공룡 중에서도 몸집이 아주 커요."
+    ],
+    "imageName": "spinosaurus"
+  },
+  {
+    "id": "dinosaur_006",
+    "category": "dinosaur",
+    "answer": "안킬로사우루스",
+    "acceptedAnswers": ["안킬로사우루스"],
+    "hints": [
+      "나는 등이 딱딱한 갑옷 같은 뼈로 덮여 있어요.",
+      "꼬리 끝에는 커다란 뼈 뭉치가 있어요.",
+      "적이 공격하면 꼬리로 휘둘러 방어해요."
+    ],
+    "imageName": "ankylosaurus"
+  },
+  {
+    "id": "dinosaur_007",
+    "category": "dinosaur",
+    "answer": "파라사우롤로푸스",
+    "acceptedAnswers": ["파라사우롤로푸스"],
+    "hints": [
+      "나는 머리 뒤에 길고 휘어진 뼈 볏이 있어요.",
+      "나는 그 볏으로 소리를 낼 수 있어요.",
+      "나는 풀을 뜯어 먹는 초식 공룡이에요."
+    ],
+    "imageName": "parasaurolophus"
+  },
+  {
+    "id": "dinosaur_008",
+    "category": "dinosaur",
+    "answer": "벨로키랍토르",
+    "acceptedAnswers": ["벨로키랍토르"],
+    "hints": [
+      "나는 몸집은 작지만 아주 빠르고 영리해요.",
+      "발에 날카로운 발톱이 있어요.",
+      "나는 무리를 지어 사냥을 해요."
+    ],
+    "imageName": "velociraptor"
+  },
+  {
+    "id": "dinosaur_009",
+    "category": "dinosaur",
+    "answer": "카르노타우루스",
+    "acceptedAnswers": ["카르노타우루스"],
+    "hints": [
+      "나는 눈 위에 작은 뿔이 두 개 있어요.",
+      "나는 팔이 아주 짧고 다리가 길어서 빠르게 달려요.",
+      "나는 고기를 먹는 공룡이에요."
+    ],
+    "imageName": "carnotaurus"
+  },
+  {
+    "id": "dinosaur_010",
+    "category": "dinosaur",
+    "answer": "프테라노돈",
+    "acceptedAnswers": ["프테라노돈"],
+    "hints": [
+      "나는 하늘을 날아다녀요.",
+      "이빨은 없지만 부리가 길어요.",
+      "머리 뒤로 길게 뻗은 볏이 있어요."
+    ],
+    "imageName": "pteranodon"
+  },
+  {
+    "id": "object_001",
+    "category": "object",
+    "answer": "우산",
+    "acceptedAnswers": ["우산"],
+    "hints": [
+      "나는 손으로 들고 다녀요.",
+      "비가 오면 나를 펼쳐서 사용해요."
+    ],
+    "imageName": "umbrella"
+  },
+  {
+    "id": "object_002",
+    "category": "object",
+    "answer": "의자",
+    "acceptedAnswers": ["의자"],
+    "hints": [
+      "나는 다리가 네 개인 경우가 많아요.",
+      "사람들이 나에게 앉아서 쉬어요."
+    ],
+    "imageName": "chair"
+  },
+  {
+    "id": "object_003",
+    "category": "object",
+    "answer": "냉장고",
+    "acceptedAnswers": ["냉장고"],
+    "hints": [
+      "나는 부엌에 있는 커다란 상자예요.",
+      "나는 안이 아주 차가워요.",
+      "음식을 시원하게 보관해줘요."
+    ],
+    "imageName": "refrigerator"
+  },
+  {
+    "id": "object_004",
+    "category": "object",
+    "answer": "텔레비전",
+    "acceptedAnswers": ["텔레비전", "티비", "TV"],
+    "hints": [
+      "나는 네모난 화면을 가지고 있어요.",
+      "나를 켜면 그림과 소리가 나와요.",
+      "거실에서 자주 볼 수 있어요."
+    ],
+    "imageName": "television"
+  },
+  {
+    "id": "object_005",
+    "category": "object",
+    "answer": "연필",
+    "acceptedAnswers": ["연필"],
+    "hints": [
+      "나는 길고 가늘어요.",
+      "나로 글씨를 쓰거나 그림을 그려요.",
+      "끝이 뾰족해요."
+    ],
+    "imageName": "pencil"
+  },
+  {
+    "id": "object_006",
+    "category": "object",
+    "answer": "가위",
+    "acceptedAnswers": ["가위"],
+    "hints": [
+      "나는 손잡이가 두 개 있어요.",
+      "종이를 자를 때 사용해요."
+    ],
+    "imageName": "scissors"
+  },
+  {
+    "id": "object_007",
+    "category": "object",
+    "answer": "시계",
+    "acceptedAnswers": ["시계"],
+    "hints": [
+      "나는 숫자와 바늘이 있어요.",
+      "지금이 몇 시인지 알려줘요."
+    ],
+    "imageName": "clock"
+  },
+  {
+    "id": "object_008",
+    "category": "object",
+    "answer": "신발",
+    "acceptedAnswers": ["신발"],
+    "hints": [
+      "나는 발에 신어요.",
+      "밖에 나갈 때 꼭 필요해요."
+    ],
+    "imageName": "shoes"
+  },
+  {
+    "id": "object_009",
+    "category": "object",
+    "answer": "칫솔",
+    "acceptedAnswers": ["칫솔"],
+    "hints": [
+      "나는 손잡이가 길고 끝에 털이 달려 있어요.",
+      "이를 깨끗하게 닦을 때 사용해요."
+    ],
+    "imageName": "toothbrush"
+  },
+  {
+    "id": "object_010",
+    "category": "object",
+    "answer": "컵",
+    "acceptedAnswers": ["컵", "잔"],
+    "hints": [
+      "나는 안이 비어 있어요.",
+      "물이나 음료수를 담아서 마실 때 사용해요."
+    ],
+    "imageName": "cup"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "무엇일까요? 퀴즈 놀이",
+  "short_name": "퀴즈 놀이",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ff8a3d",
+  "theme_color": "#ff8a3d",
+  "lang": "ko",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,551 @@
+/* ==========================================================
+ * 무엇일까요? 퀴즈 놀이 — 스타일 (사지선다 버전)
+ * 모바일(세로 화면) 기준으로 만들고, 큰 화면에서는 가운데 정렬됩니다.
+ * ========================================================== */
+
+:root {
+  --orange: #ff8a3d;
+  --pink: #ff5e8a;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
+  --gray: #9ca3af;
+  --green: #22c55e;
+  --slate: #6b7280;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --stage-dark: #000000;
+  --stage-light: #eef0f7;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif;
+  color: var(--text);
+  background: #fff;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------- 공통 화면 틀 ---------- */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+  overflow-y: auto;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* 화면 안의 내용은 너무 넓어지지 않게 가운데로 모은다 */
+.screen > * {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ---------- 1. 시작 화면 ---------- */
+.screen-start {
+  background: linear-gradient(180deg, var(--orange), var(--pink));
+  color: #fff;
+  justify-content: space-between;
+}
+
+.start-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.start-emoji {
+  font-size: 88px;
+}
+
+.start-title {
+  margin: 0;
+  font-size: 46px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.load-status {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.85;
+  text-align: center;
+}
+
+.start-btn {
+  height: 84px;
+  border: 0;
+  border-radius: 28px;
+  background: #fff;
+  color: var(--orange);
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 900;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.start-btn:active {
+  transform: scale(0.95);
+}
+
+.start-btn:disabled {
+  opacity: 0.6;
+}
+
+/* ---------- 2. 카테고리 화면 ---------- */
+.screen-title {
+  margin: 28px 0 20px;
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.support-banner {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #fff4e5;
+  color: #92400e;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 150px;
+  border: 0;
+  border-radius: 28px;
+  color: #fff;
+  font-family: inherit;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.category-card:active {
+  transform: scale(0.94);
+}
+
+.cat-emoji {
+  font-size: 58px;
+  line-height: 1;
+}
+
+.cat-label {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+/* ---------- 3. 퀴즈 화면 ---------- */
+.screen-quiz {
+  gap: 10px;
+}
+
+.quiz-header {
+  min-height: 30px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* 무대: 문제 중에는 검정 배경 + 흰 실루엣 */
+.stage {
+  position: relative;
+  flex: 0 0 auto;
+  height: 190px;
+  height: min(24dvh, 220px);
+  border-radius: 32px;
+  background: var(--stage-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: background 0.6s ease, height 0.4s ease;
+}
+
+/* 정답 화면에서는 그림을 더 크게 보여준다 */
+#screen-quiz[data-state='correct'] .stage {
+  height: 300px;
+  height: min(36dvh, 320px);
+}
+
+/* 은은한 스포트라이트 */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.14), transparent 65%);
+  transition: opacity 0.6s ease;
+}
+
+.stage img {
+  position: relative;
+  max-width: 78%;
+  max-height: 78%;
+  object-fit: contain;
+  /* 원본 PNG 의 투명(alpha) 부분은 그대로 두고, 그림 부분만 흰색으로 만든다 = 자동 실루엣 */
+  filter: brightness(0) invert(1);
+  transition: filter 0.6s ease;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.image-fallback {
+  position: relative;
+  font-size: 80px;
+  color: #fff;
+}
+
+/* 고정 그림(QUESTION_IMAGE)은 실루엣 처리 없이 원래 색 그대로 보여준다 */
+.stage.question-fixed img {
+  filter: none;
+}
+
+/* 정답 공개: 밝은 배경 + 원래 색 그림 */
+#screen-quiz[data-state='correct'] .stage {
+  background: var(--stage-light);
+}
+
+#screen-quiz[data-state='correct'] .stage::before {
+  opacity: 0;
+}
+
+#screen-quiz[data-state='correct'] .stage img {
+  filter: none;
+}
+
+#screen-quiz[data-state='correct'] .image-fallback {
+  color: var(--slate);
+}
+
+/* 축하 별 */
+.celebration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 30px;
+  opacity: 0;
+  animation: pop 1.1s ease-out forwards;
+}
+
+@keyframes pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* 무대 아래 안내 영역 */
+.info-area {
+  flex: 0 0 auto;
+  min-height: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+}
+
+#screen-quiz[data-state='correct'] .info-area {
+  flex: 1;
+}
+
+.hint-text {
+  color: var(--muted);
+  font-size: 16px;
+  white-space: pre-line;
+}
+
+.hint-text:empty {
+  display: none;
+}
+
+/* "골라 보세요" / "다시 한번 생각해 보세요" */
+.choice-message {
+  display: none;
+  min-height: 30px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+#screen-quiz[data-state='choosing'] .choice-message {
+  display: block;
+}
+
+.choice-message.retry {
+  color: #f97316;
+  animation: nudge 0.4s;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+.result-panel {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+#screen-quiz[data-state='correct'] .result-panel {
+  display: flex;
+}
+
+.result-text {
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--green);
+  word-break: keep-all;
+}
+
+.result-sub {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ---------- 사지선다 보기 ---------- */
+.choices {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+#screen-quiz[data-state='choosing'] .choices {
+  display: grid;
+}
+
+.choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 10px 8px 12px;
+  border: 4px solid #e5e7eb;
+  border-radius: 22px;
+  background: #fff;
+  color: var(--text);
+  font-family: inherit;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.12s, opacity 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.choice:active:not(:disabled) {
+  transform: scale(0.95);
+  border-color: var(--blue);
+}
+
+.choice img {
+  width: 100%;
+  height: 88px;
+  height: clamp(64px, 11dvh, 104px);
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.choice-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 88px;
+  height: clamp(64px, 11dvh, 104px);
+  font-size: 44px;
+}
+
+.choice-label {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  word-break: keep-all;
+}
+
+/* 틀린 보기: 흐리게 + ✖ 표시, 다시 누를 수 없음 */
+.choice.wrong {
+  opacity: 0.45;
+  border-color: #fca5a5;
+  background: #fef2f2;
+  cursor: default;
+}
+
+.choice.wrong::after {
+  content: '✖';
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 22px;
+  color: var(--red);
+}
+
+.choice.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+/* ---------- 하단 버튼 영역 ---------- */
+.actions {
+  flex: 0 0 auto;
+}
+
+.group {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+}
+
+#screen-quiz[data-state='preparing'] .group-reading,
+#screen-quiz[data-state='readingHints'] .group-reading,
+#screen-quiz[data-state='choosing'] .group-choosing {
+  display: flex;
+}
+
+#screen-quiz[data-state='correct'] .group-result {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+}
+
+.wide-btn,
+.wide-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 76px;
+  height: clamp(60px, 9.5dvh, 76px);
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* 보기를 고르는 중의 "힌트 다시 듣기"는 보기보다 눈에 덜 띄게 조금 작게 */
+.group-choosing .wide-btn {
+  height: 56px;
+  height: clamp(48px, 7dvh, 58px);
+  font-size: 19px;
+}
+
+.wide-btn {
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.wide-btn:active {
+  transform: scale(0.95);
+}
+
+.group-result .wide-btn {
+  flex: 1;
+  border-radius: 24px;
+}
+
+.ico {
+  font-size: 26px;
+}
+
+.red { background: var(--red); }
+.blue { background: var(--blue); }
+.purple { background: var(--purple); }
+.gray { background: var(--gray); }
+.green { background: var(--green); }
+.slate { background: var(--slate); }

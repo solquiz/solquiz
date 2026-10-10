@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Stargazers log</title>
-  </head>
-  <body>
-    <h1>Stargazers log</h1>
-    <p>A log of the repositories I've starred.</p>
-  </body>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff8a3d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="퀴즈 놀이" />
+  <title>무엇일까요? 퀴즈 놀이</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main id="app">
+
+    <!-- 1. 시작 화면 -->
+    <section id="screen-start" class="screen screen-start active">
+      <div class="start-center">
+        <div class="start-emoji">🎈</div>
+        <h1 class="start-title">무엇일까요?</h1>
+        <p id="load-status" class="load-status">퀴즈를 불러오는 중...</p>
+      </div>
+      <button id="btn-start" class="start-btn" disabled>퀴즈 시작</button>
+    </section>
+
+    <!-- 2. 카테고리 선택 화면 (버튼은 quizzes.json 의 category 를 보고 자동으로 만들어집니다) -->
+    <section id="screen-category" class="screen screen-category">
+      <h2 class="screen-title">무엇을 맞혀볼까요?</h2>
+      <div id="support-banner" class="support-banner hidden"></div>
+      <div id="category-grid" class="category-grid"></div>
+    </section>
+
+    <!-- 3. 퀴즈 화면 -->
+    <section id="screen-quiz" class="screen screen-quiz" data-state="preparing">
+      <div id="quiz-header" class="quiz-header">&nbsp;</div>
+
+      <!-- 검은 무대: 문제 중엔 검정 배경 + 흰 실루엣, 정답 공개 후엔 밝은 배경 + 컬러 그림 -->
+      <div id="stage" class="stage">
+        <img id="quiz-image" alt="" draggable="false" />
+        <div id="image-fallback" class="image-fallback hidden">❓</div>
+        <div id="celebration" class="celebration"></div>
+      </div>
+
+      <div class="info-area">
+        <div id="hint-text" class="hint-text"></div>
+
+        <!-- 보기를 고르는 중 안내 / 틀렸을 때 "다시 한번 생각해 보세요" -->
+        <div id="choice-message" class="choice-message">&nbsp;</div>
+
+        <!-- 정답 화면 -->
+        <div id="result-panel" class="result-panel">
+          <div id="result-text" class="result-text"></div>
+          <div id="result-sub" class="result-sub"></div>
+        </div>
+      </div>
+
+      <!-- 사지선다 보기 (그림 + 글씨). 카드는 app.js 가 문제마다 자동으로 만든다 -->
+      <div id="choices" class="choices"></div>
+
+      <div class="actions">
+        <!-- 힌트를 읽는 중 -->
+        <div class="group group-reading">
+          <div class="wide-pill gray"><span class="ico">👂</span>잘 들어보세요</div>
+        </div>
+
+        <!-- 보기를 고르는 중 -->
+        <div class="group group-choosing">
+          <button id="btn-replay" class="wide-btn blue"><span class="ico">🔊</span>힌트 다시 듣기</button>
+        </div>
+
+        <!-- 정답 화면 -->
+        <div class="group group-result">
+          <button id="btn-quit" class="wide-btn slate"><span class="ico">■</span>그만하기</button>
+          <button id="btn-continue" class="wide-btn green"><span class="ico">▶</span>계속하기</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <audio id="clap" src="sounds/clap.wav" preload="auto"></audio>
+  <script type="module" src="js/app.js"></script>
+</body>
 </html>

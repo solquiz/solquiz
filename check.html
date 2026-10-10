@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>퀴즈 데이터 점검</title>
+  <style>
+    body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif; margin: 0; padding: 20px; max-width: 900px; margin-inline: auto; color: #1f2937; line-height: 1.5; }
+    h1 { font-size: 24px; margin: 0 0 4px; }
+    .note { color: #6b7280; font-size: 14px; margin: 0 0 16px; }
+    .box { border-radius: 12px; padding: 12px 14px; margin: 12px 0; font-size: 15px; }
+    .ok { background: #ecfdf5; color: #065f46; }
+    .warn { background: #fff7ed; color: #9a3412; }
+    .err { background: #fef2f2; color: #991b1b; }
+    .box h2 { margin: 0 0 6px; font-size: 16px; }
+    .box ul { margin: 6px 0 0; padding-left: 20px; }
+    pre { background: #111827; color: #e5e7eb; padding: 10px 12px; border-radius: 10px; overflow-x: auto; font-size: 13px; margin: 8px 0 0; }
+    pre .hit { background: #7f1d1d; display: block; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; margin-top: 8px; }
+    th, td { border-bottom: 1px solid #e5e7eb; padding: 6px 8px; text-align: left; vertical-align: middle; }
+    th { background: #f9fafb; position: sticky; top: 0; }
+    tr.bad td { background: #fef2f2; }
+    .thumb { width: 44px; height: 44px; object-fit: contain; background: #e5e7eb; border-radius: 6px; display: block; }
+    code { background: #f3f4f6; padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>퀴즈 데이터 점검</h1>
+  <p class="note">
+    <code>data/quizzes.json</code> 과 <code>images/</code> 폴더가 서로 맞는지 확인해 줘요.
+    (이 서버가 보고 있는 폴더 기준이에요.) 고친 뒤에는 이 페이지를 새로고침하세요.
+  </p>
+  <div id="where" class="note"></div>
+  <div id="result"></div>
+  <script type="module" src="js/check.js"></script>
+</body>
+</html>
