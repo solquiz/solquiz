@@ -628,6 +628,128 @@
     "imageName": "kayak"
   },
   {
+    "id": "car_057",
+    "category": "car",
+    "answer": "아스팔트 피니셔",
+    "hints": [
+      "나는 도로를 새로 만드는 공사장에서 일해요.",
+      "뜨거운 검은 아스팔트를 받아서 넓게 펼쳐요.",
+      "내가 지나가면 울퉁불퉁하던 길이 평평하고 매끈해져요."
+    ],
+    "imageName": "asphalt_finisher"
+  },
+  {
+    "id": "car_058",
+    "category": "car",
+    "answer": "지게차",
+    "hints": [
+      "나는 창고와 공장에서 일해요.",
+      "앞에 포크처럼 생긴 튼튼한 쇠막대가 두 개 있어요.",
+      "무거운 상자를 올려서 높은 곳까지 들어 올릴 수 있어요."
+    ],
+    "imageName": "forklift"
+  },
+  {
+    "id": "car_059",
+    "category": "car",
+    "answer": "콘크리트 펌프카",
+    "hints": [
+      "나는 높은 건물을 지을 때 일해요.",
+      "나는 길게 구부러지는 팔이 있어요.",
+      "콘크리트를 먼 곳까지 보낼 수 있어요."
+    ],
+    "imageName": "concrete_pump_truck"
+  },
+  {
+    "id": "car_060",
+    "category": "car",
+    "answer": "제설차",
+    "hints": [
+      "나는 겨울에 눈이 많이 올 때 나와요.",
+      "앞에 커다란 삽 같은 판이 달려 있어요.",
+      "길에 쌓인 눈을 밀어내서 자동차들이 다닐 수 있게 해요."
+    ],
+    "imageName": "snowplow"
+  },
+  {
+    "id": "car_061",
+    "category": "car",
+    "answer": "살수차",
+    "hints": [
+      "나는 도로를 달리면서 물을 뿌려요.",
+      "내 몸에서 물이 쏴아 하고 나와요.",
+      "먼지가 날리지 않게 하고 길을 깨끗하게 씻어 줘요."
+    ],
+    "imageName": "water_sprinkler_truck",
+    "notWith": ["car_060"]
+  },
+  {
+    "id": "car_062",
+    "category": "car",
+    "answer": "주차단속차",
+    "hints": [
+      "나는 길가에 세워 둔 차들을 살피며 천천히 다녀요.",
+      "내 위에는 카메라가 달려 있어요.",
+      "주차하면 안 되는 곳에 세운 차를 찾아서 알려 줘요."
+    ],
+    "imageName": "parking_enforcement_car"
+  },
+  {
+    "id": "car_063",
+    "category": "car",
+    "answer": "헌혈차",
+    "hints": [
+      "나는 사람들이 많이 모이는 곳을 찾아다녀요.",
+      "내 안에는 누워서 쉴 수 있는 의자와 간호사 선생님이 있어요.",
+      "사람들이 피를 나눠 주면 아픈 사람을 도울 수 있어요."
+    ],
+    "imageName": "blood_donation_bus"
+  },
+  {
+    "id": "car_064",
+    "category": "car",
+    "answer": "탱크",
+    "hints": [
+      "나는 군대에서 일하는 아주 튼튼한 차예요.",
+      "바퀴 대신 넓은 띠가 빙글빙글 돌면서 달려요.",
+      "내 위에는 길고 커다란 대포가 달려 있어요."
+    ],
+    "imageName": "tank"
+  },
+  {
+    "id": "car_065",
+    "category": "car",
+    "answer": "전투기",
+    "hints": [
+      "나는 하늘을 아주 빠르게 날아다녀요.",
+      "내 날개는 뾰족하고 몸은 날씬해요.",
+      "나는 군대에서 하늘을 지켜요."
+    ],
+    "imageName": "fighter_jet"
+  },
+  {
+    "id": "car_066",
+    "category": "car",
+    "answer": "항공모함",
+    "hints": [
+      "나는 바다 위에 떠다니는 아주 커다란 배예요.",
+      "내 위는 넓고 평평한 활주로예요.",
+      "비행기들이 내 위에서 날아오르고 내려앉아요."
+    ],
+    "imageName": "aircraft_carrier"
+  },
+  {
+    "id": "car_067",
+    "category": "car",
+    "answer": "스쿨버스",
+    "hints": [
+      "나는 노란색이에요.",
+      "어린이들이 유치원이나 학교에 갈 때 타요.",
+      "내가 멈춰서 어린이가 타고 내릴 때는 다른 차들도 멈춰야 해요."
+    ],
+    "imageName": "school_bus"
+  },
+  {
     "id": "dinosaur_001",
     "category": "dinosaur",
     "answer": "티라노사우루스",
