@@ -26,6 +26,29 @@ if (supported) {
   else speechSynthesis.onvoiceschanged = pickVoice;
 }
 
+// cancel() 직후에 바로 speak() 하면 안드로이드 Chrome/아이폰 Safari 가 그 말을 통째로 삼키거나 깨뜨리는 경우가 있다.
+// 그래서 마지막 cancel() 로부터 이 시간이 지난 뒤에 말을 시작한다.
+const CANCEL_GAP_MS = 180;
+// speak() 를 불렀는데 이 시간 안에 시작(onstart)이 안 되면 "씹힌 것"으로 보고 한 번 다시 시도한다.
+const START_WATCHDOG_MS = 2500;
+
+let lastCancelAt = 0;
+
+function cancelAll() {
+  try { speechSynthesis.cancel(); } catch (_) { /* 무시 */ }
+  lastCancelAt = Date.now();
+}
+
+function makeUtterance(text, rate, pitch) {
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ko-KR';
+  if (voice) u.voice = voice;
+  u.rate = rate;     // 1.0 이 보통 속도. 아이용이라 조금 느리게.
+  u.pitch = pitch;
+  u.volume = 1;      // 소리 크기는 기기의 미디어 볼륨을 그대로 따라간다.
+  return u;
+}
+
 /**
  * 한 문장을 읽어준다. 끝나면 'ended', 중간에 끊기면 'cancelled'/'error', 지원 안 되면 'skipped'.
  * 이미 말하는 중이면 먼저 끊고 새로 시작한다(음성 겹침 방지).
@@ -37,44 +60,68 @@ export function speak(text, { rate = 0.9, pitch = 1.1 } = {}) {
       return;
     }
 
+    if (!voice) pickVoice(); // 목소리 목록이 늦게 채워진 경우 다시 찾아본다
+
     // 이전 발화가 남아 있으면 정리
     const wasBusy = speechSynthesis.speaking || speechSynthesis.pending;
     if (pendingFinish) pendingFinish('cancelled');
-    if (wasBusy) speechSynthesis.cancel();
-
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR';
-    if (voice) u.voice = voice;
-    u.rate = rate;     // 1.0 이 보통 속도. 아이용이라 조금 느리게.
-    u.pitch = pitch;
-    u.volume = 1;      // 소리 크기는 기기의 미디어 볼륨을 그대로 따라간다.
+    if (wasBusy) cancelAll();
 
     let done = false;
-    let timer = null;
+    let attempt = 0;
+    let started = false;
+    let endTimer = null;
+    let watchdog = null;
+
     const finish = (result) => {
       if (done) return;
       done = true;
-      clearTimeout(timer);
-      if (current === u) current = null;
+      clearTimeout(endTimer);
+      clearTimeout(watchdog);
+      current = null;
       if (pendingFinish === finish) pendingFinish = null;
       resolve(result);
     };
-
-    u.onend = () => finish('ended');
-    u.onerror = (e) => finish(e && (e.error === 'canceled' || e.error === 'interrupted') ? 'cancelled' : 'error');
+    pendingFinish = finish;
 
     // 일부 브라우저는 onend 가 안 오는 경우가 있어 안전장치를 둔다.
-    timer = setTimeout(() => {
-      try { speechSynthesis.cancel(); } catch (_) { /* 무시 */ }
+    endTimer = setTimeout(() => {
+      cancelAll();
       finish('timeout');
-    }, text.length * 450 + 5000);
+    }, text.length * 450 + 8000);
 
-    pendingFinish = finish;
-    current = u;
+    const begin = () => {
+      if (done) return;
+      started = false;
+      const u = makeUtterance(text, rate, pitch);
+      current = u; // 참조를 잡아둬야 안드로이드 Chrome 이 중간에 끊지 않는다
+      // 이전 시도의 utterance 가 뒤늦게 보내는 이벤트는 무시한다.
+      u.onstart = () => { if (current === u) { started = true; clearTimeout(watchdog); } };
+      u.onend = () => { if (current === u) finish('ended'); };
+      u.onerror = (e) => {
+        if (current !== u) return;
+        finish(e && (e.error === 'canceled' || e.error === 'interrupted') ? 'cancelled' : 'error');
+      };
 
-    // cancel() 직후 바로 speak() 하면 아이폰에서 씹히는 경우가 있어 살짝 간격을 둔다.
-    if (wasBusy) setTimeout(() => speechSynthesis.speak(u), 80);
-    else speechSynthesis.speak(u);
+      try { speechSynthesis.resume(); } catch (_) { /* 일시정지 상태로 굳은 경우 풀어준다 */ }
+      speechSynthesis.speak(u);
+
+      watchdog = setTimeout(() => {
+        if (done || started) return;
+        if (attempt < 1) {            // 씹혔다 → 한 번만 다시 시도
+          attempt += 1;
+          cancelAll();
+          setTimeout(begin, CANCEL_GAP_MS);
+        } else {
+          cancelAll();
+          finish('timeout');
+        }
+      }, START_WATCHDOG_MS);
+    };
+
+    const wait = Math.max(0, CANCEL_GAP_MS - (Date.now() - lastCancelAt));
+    if (wait > 0) setTimeout(begin, wait);
+    else begin();
   });
 }
 
@@ -82,7 +129,7 @@ export function speak(text, { rate = 0.9, pitch = 1.1 } = {}) {
 export function stop() {
   if (!supported) return;
   if (pendingFinish) pendingFinish('cancelled');
-  try { speechSynthesis.cancel(); } catch (_) { /* 무시 */ }
+  cancelAll();
 }
 
 /**

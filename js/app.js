@@ -15,6 +15,8 @@ const CONFIG = {
   SHOW_SILHOUETTE: true,                 // 위쪽 무대(문제 그림)를 보여줄지. false 면 정답 공개 전까지 무대를 숨기고 힌트+보기만 보여줌
   DISTRACTORS_SAME_CATEGORY_FIRST: true, // 오답 보기를 같은 카테고리에서 먼저 뽑을지 (false 면 전체에서 무작위)
   SHOW_HINT_TEXT: false,                 // true 로 바꾸면 힌트를 화면에 글자로도 보여줍니다 (개발 확인용)
+  CLAP_VOLUME: 0.8,                      // 박수 소리 크기 (0~1). 아이폰은 기기 볼륨 버튼만 먹고 이 값은 무시됩니다.
+  CORRECT_VOICE_DELAY_MS: 900,           // 박수가 시작되고 나서 "정답입니다!" 음성을 시작할 때까지의 시간. 0 이면 동시에 시작(아이폰에서 소리가 깨질 수 있음)
 };
 
 /** 카테고리 표시 정보. JSON 에 새 카테고리를 추가해도 여기에 없으면 기본 모양(🎁)으로 자동 표시됩니다. */
@@ -349,7 +351,10 @@ function showCorrect() {
   el.resultSub.textContent = quiz.answer;
   launchStars();
   playClap();
-  tts.speak('정답입니다!');
+  // 박수와 음성을 동시에 시작하면 특히 아이폰에서 한쪽이 끊기거나 깨진다. 박수가 먼저 울린 뒤 음성을 시작한다.
+  setTimeout(() => {
+    if (S.state === 'correct' && S.current === quiz) tts.speak('정답입니다!');
+  }, CONFIG.CORRECT_VOICE_DELAY_MS);
 }
 
 function launchStars() {
@@ -369,28 +374,26 @@ function launchStars() {
 
 function playClap() {
   try {
+    el.clap.pause();
     el.clap.currentTime = 0;
-    el.clap.volume = 1;
+    el.clap.volume = CONFIG.CLAP_VOLUME;
     const p = el.clap.play();
     if (p && p.catch) p.catch(() => {});
   } catch (_) { /* 무시 */ }
 }
 
-/** 처음 한 번 사용자가 화면을 누를 때 효과음도 "열어" 둔다 (아이폰 자동재생 제한 대응) */
+/**
+ * 처음 한 번 사용자가 화면을 누를 때 효과음도 "열어" 둔다 (아이폰 자동재생 제한 대응).
+ * 아이폰은 muted/volume 값을 무시하므로, 소리를 죽이는 방식 대신 play() 직후 바로 pause() 한다.
+ * (예전 방식은 아이폰에서 시작 버튼을 누를 때 박수 소리가 새어 나왔다)
+ */
 function unlockClap() {
   try {
-    el.clap.muted = true;
     const p = el.clap.play();
-    const restore = () => {
-      el.clap.pause();
-      el.clap.currentTime = 0;
-      el.clap.muted = false;
-    };
-    if (p && p.then) p.then(restore).catch(() => { el.clap.muted = false; });
-    else restore();
-  } catch (_) {
-    el.clap.muted = false;
-  }
+    el.clap.pause();
+    el.clap.currentTime = 0;
+    if (p && p.catch) p.catch(() => {}); // pause 때문에 생기는 AbortError 는 정상
+  } catch (_) { /* 무시 */ }
 }
 
 /* ============================================================
