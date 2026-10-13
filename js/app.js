@@ -93,7 +93,7 @@ function showScreen(name) {
 function setState(state) {
   S.state = state;
   el.screens.quiz.dataset.state = state; // CSS 가 이 값을 보고 보기/버튼/패널을 보여주거나 숨긴다
-  const headers = { readingHints: '잘 들어보세요 👂', choosing: '이게 뭘까요?' };
+  const headers = { readingHints: '잘 들어보세요 👂', choosing: '나는 누구일까요?' };
   el.quizHeader.textContent = headers[state] || '\u00A0';
   // SHOW_SILHOUETTE 가 꺼져 있으면 정답을 공개하기 전까지 무대를 숨긴다.
   el.stage.classList.toggle('hidden', !CONFIG.SHOW_SILHOUETTE && state !== 'correct');
@@ -353,7 +353,7 @@ function showWrong(btn) {
   // 부저 소리와 음성이 겹치지 않도록 부저가 울린 뒤에 말한다. 그 사이에 다른 보기를 누르면 이 안내는 취소된다.
   const run = S.runId;
   setTimeout(() => {
-    if (run === S.runId && S.state === 'choosing') tts.speak('다시 한번 생각해 보세요.');
+    if (run === S.runId && S.state === 'choosing') tts.speak('다시 해보자.');
   }, CONFIG.WRONG_VOICE_DELAY_MS);
 }
 
