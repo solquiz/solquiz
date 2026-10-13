@@ -15,6 +15,8 @@ const CONFIG = {
   SHOW_SILHOUETTE: true,                 // 위쪽 무대(문제 그림)를 보여줄지. false 면 정답 공개 전까지 무대를 숨기고 힌트+보기만 보여줌
   DISTRACTORS_SAME_CATEGORY_FIRST: true, // 오답 보기를 같은 카테고리에서 먼저 뽑을지 (false 면 전체에서 무작위)
   SHOW_HINT_TEXT: false,                 // true 로 바꾸면 힌트를 화면에 글자로도 보여줍니다 (개발 확인용)
+  BUZZER_VOLUME: 0.6,                    // 오답 부저 소리 크기 (0~1)
+  WRONG_VOICE_DELAY_MS: 650,             // 부저가 울린 뒤 "다시 한번 생각해 보세요" 음성을 시작할 때까지의 시간
   CLAP_VOLUME: 0.8,                      // 박수 소리 크기 (0~1). 아이폰은 기기 볼륨 버튼만 먹고 이 값은 무시됩니다.
   CORRECT_VOICE_DELAY_MS: 900,           // 박수가 시작되고 나서 "정답입니다!" 음성을 시작할 때까지의 시간. 0 이면 동시에 시작(아이폰에서 소리가 깨질 수 있음)
 };
@@ -53,6 +55,7 @@ const el = {
   btnContinue: $('btn-continue'),
   btnQuit: $('btn-quit'),
   clap: $('clap'),
+  buzzer: $('buzzer'),
 };
 
 /* ============================================================
@@ -66,6 +69,7 @@ const S = {
   current: null,
   state: 'preparing',
   runId: 0,        // 진행 중인 작업을 한꺼번에 무효화하기 위한 번호표
+  judging: false,  // 누른 보기의 이름을 읽어주는 중(이때는 다른 보기를 못 누름)
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -316,8 +320,18 @@ function replayHints() {
 /* ============================================================
  * 보기 고르기 → 판정
  * ============================================================ */
-function pickChoice(choice, btn, correctQuiz) {
-  if (S.state !== 'choosing') return;
+/** 보기를 누르면: 먼저 그 보기의 이름을 읽어주고, 다 읽으면 정답/오답을 알려준다. */
+async function pickChoice(choice, btn, correctQuiz) {
+  if (S.state !== 'choosing' || S.judging) return; // 읽어주는 중에 다른 보기를 연타하는 것 방지
+  S.judging = true;
+  const run = interrupt();
+  btn.classList.add('picked');
+
+  await tts.speak(choice.answer);
+
+  btn.classList.remove('picked');
+  S.judging = false;
+  if (run !== S.runId || S.state !== 'choosing') return; // 읽는 도중 다른 일이 생겼으면(다시 듣기, 앱 전환 등) 판정하지 않는다
 
   if (choice.id === correctQuiz.id) {
     showCorrect();
@@ -335,7 +349,12 @@ function showWrong(btn) {
   btn.classList.add('shake');
 
   setMessage('다시 한번 생각해 보세요 🤔', { retry: true });
-  tts.speak('다시 한번 생각해 보세요.');
+  playSfx(el.buzzer, CONFIG.BUZZER_VOLUME);
+  // 부저 소리와 음성이 겹치지 않도록 부저가 울린 뒤에 말한다. 그 사이에 다른 보기를 누르면 이 안내는 취소된다.
+  const run = S.runId;
+  setTimeout(() => {
+    if (run === S.runId && S.state === 'choosing') tts.speak('다시 한번 생각해 보세요.');
+  }, CONFIG.WRONG_VOICE_DELAY_MS);
 }
 
 /** 맞았을 때: 정답 화면(컬러 그림 공개 + 별 + 박수 + 음성) */
@@ -350,7 +369,7 @@ function showCorrect() {
   el.resultText.textContent = '🎉 정답입니다! 🎉';
   el.resultSub.textContent = quiz.answer;
   launchStars();
-  playClap();
+  playSfx(el.clap, CONFIG.CLAP_VOLUME);
   // 박수와 음성을 동시에 시작하면 특히 아이폰에서 한쪽이 끊기거나 깨진다. 박수가 먼저 울린 뒤 음성을 시작한다.
   setTimeout(() => {
     if (S.state === 'correct' && S.current === quiz) tts.speak('정답입니다!');
@@ -372,12 +391,12 @@ function launchStars() {
   }
 }
 
-function playClap() {
+function playSfx(audio, volume) {
   try {
-    el.clap.pause();
-    el.clap.currentTime = 0;
-    el.clap.volume = CONFIG.CLAP_VOLUME;
-    const p = el.clap.play();
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = volume;
+    const p = audio.play();
     if (p && p.catch) p.catch(() => {});
   } catch (_) { /* 무시 */ }
 }
@@ -385,13 +404,12 @@ function playClap() {
 /**
  * 처음 한 번 사용자가 화면을 누를 때 효과음도 "열어" 둔다 (아이폰 자동재생 제한 대응).
  * 아이폰은 muted/volume 값을 무시하므로, 소리를 죽이는 방식 대신 play() 직후 바로 pause() 한다.
- * (예전 방식은 아이폰에서 시작 버튼을 누를 때 박수 소리가 새어 나왔다)
  */
-function unlockClap() {
+function unlockSfx(audio) {
   try {
-    const p = el.clap.play();
-    el.clap.pause();
-    el.clap.currentTime = 0;
+    const p = audio.play();
+    audio.pause();
+    audio.currentTime = 0;
     if (p && p.catch) p.catch(() => {}); // pause 때문에 생기는 AbortError 는 정상
   } catch (_) { /* 무시 */ }
 }
@@ -427,7 +445,8 @@ function bindEvents() {
   el.btnStart.addEventListener('click', () => {
     // 사용자가 화면을 누른 이 순간에 소리를 열어 둔다.
     tts.unlock();
-    unlockClap();
+    unlockSfx(el.clap);
+    unlockSfx(el.buzzer);
     updateSupportBanner();
     showScreen('category');
   });
