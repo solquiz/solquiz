@@ -439,6 +439,12 @@ body {
 }
 
 /* 틀린 보기: 흐리게 + ✖ 표시, 다시 누를 수 없음 */
+.choice.picked {
+  transform: scale(1.04);
+  outline: 4px solid #fbbf24;
+  outline-offset: 2px;
+}
+
 .choice.wrong {
   opacity: 0.45;
   border-color: #fca5a5;
