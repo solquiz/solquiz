@@ -210,6 +210,13 @@ body {
   transition: background 0.6s ease, height 0.4s ease;
 }
 
+/* 문제 중 배경 그림 (STAGE_BACKGROUND). 정답 화면에서는 아래 규칙이 밝은 배경으로 덮어쓴다 */
+.stage.has-bg {
+  background-image: var(--stage-bg-image);
+  background-size: cover;
+  background-position: center;
+}
+
 /* 정답 화면에서는 그림을 더 크게 보여준다 */
 #screen-quiz[data-state='correct'] .stage {
   height: 300px;
@@ -487,6 +494,8 @@ body {
 /* ---------- 하단 버튼 영역 ---------- */
 .actions {
   flex: 0 0 auto;
+  margin-top: auto;   /* 남는 공간이 있으면 버튼을 화면 맨 아래로 내린다 */
+  padding-top: 32px;  /* 공간이 없어도 보기와 최소 이만큼은 떨어뜨린다 (잘못 누름 방지) */
 }
 
 .group {
