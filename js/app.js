@@ -12,6 +12,7 @@ const CONFIG = {
   HINT_GAP_MS: 1400,                     // 힌트와 힌트 사이 간격(밀리초)
   CHOICE_COUNT: 4,                       // 보기 개수 (사지선다 = 4)
   QUESTION_IMAGE: 'images/question.png', // 문제가 나가는 동안 위쪽 무대에 (어떤 문제든 똑같이) 보여줄 그림. 정답 그림의 실루엣을 대신 보여주려면 '' 로 바꾸세요.
+  STAGE_BACKGROUND: 'images/stage_bg.png', // 문제가 나가는 동안 위쪽 무대(? 그림 뒤)에 깔 배경 그림. 파일이 없거나 '' 이면 검정 배경. 정답 공개 때는 밝은 배경으로 바뀝니다.
   SHOW_SILHOUETTE: true,                 // 위쪽 무대(문제 그림)를 보여줄지. false 면 정답 공개 전까지 무대를 숨기고 힌트+보기만 보여줌
   DISTRACTORS_SAME_CATEGORY_FIRST: true, // 오답 보기를 같은 카테고리에서 먼저 뽑을지 (false 면 전체에서 무작위)
   SHOW_HINT_TEXT: false,                 // true 로 바꾸면 힌트를 화면에 글자로도 보여줍니다 (개발 확인용)
@@ -93,7 +94,7 @@ function showScreen(name) {
 function setState(state) {
   S.state = state;
   el.screens.quiz.dataset.state = state; // CSS 가 이 값을 보고 보기/버튼/패널을 보여주거나 숨긴다
-  const headers = { readingHints: '잘 들어보세요 👂', choosing: '나는 누구일까요?' };
+  const headers = { readingHints: '잘 들어보세요 👂', choosing: '이게 뭘까요?' };
   el.quizHeader.textContent = headers[state] || '\u00A0';
   // SHOW_SILHOUETTE 가 꺼져 있으면 정답을 공개하기 전까지 무대를 숨긴다.
   el.stage.classList.toggle('hidden', !CONFIG.SHOW_SILHOUETTE && state !== 'correct');
@@ -353,7 +354,7 @@ function showWrong(btn) {
   // 부저 소리와 음성이 겹치지 않도록 부저가 울린 뒤에 말한다. 그 사이에 다른 보기를 누르면 이 안내는 취소된다.
   const run = S.runId;
   setTimeout(() => {
-    if (run === S.runId && S.state === 'choosing') tts.speak('다시 해보자.');
+    if (run === S.runId && S.state === 'choosing') tts.speak('다시 한번 생각해 보세요.');
   }, CONFIG.WRONG_VOICE_DELAY_MS);
 }
 
@@ -455,8 +456,21 @@ function bindEvents() {
   el.btnQuit.addEventListener('click', quit);
 }
 
+/** 무대 배경 그림(STAGE_BACKGROUND)이 실제로 있을 때만 적용한다. 없으면 기존처럼 검정 배경. */
+function applyStageBackground() {
+  if (!CONFIG.STAGE_BACKGROUND) return;
+  const probe = new Image();
+  probe.onload = () => {
+    el.stage.style.setProperty('--stage-bg-image', `url("${CONFIG.STAGE_BACKGROUND}")`);
+    el.stage.classList.add('has-bg');
+  };
+  probe.onerror = () => console.info(`[배경] ${CONFIG.STAGE_BACKGROUND} 파일이 없어서 검정 배경을 써요.`);
+  probe.src = CONFIG.STAGE_BACKGROUND;
+}
+
 async function init() {
   bindEvents();
+  applyStageBackground();
   try {
     const { quizzes, problems } = await loadQuizzes();
     problems.forEach((p) => console.warn('[quizzes.json]', p));
