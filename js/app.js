@@ -18,8 +18,8 @@ const CONFIG = {
   SHOW_HINT_TEXT: false,                 // true 로 바꾸면 힌트를 화면에 글자로도 보여줍니다 (개발 확인용)
   BUZZER_VOLUME: 0.6,                    // 오답 부저 소리 크기 (0~1)
   WRONG_VOICE_DELAY_MS: 650,             // 부저가 울린 뒤 "다시 한번 생각해 보세요" 음성을 시작할 때까지의 시간
-  CLAP_VOLUME: 0.8,                      // 박수 소리 크기 (0~1). 아이폰은 기기 볼륨 버튼만 먹고 이 값은 무시됩니다.
-  CORRECT_VOICE_DELAY_MS: 900,           // 박수가 시작되고 나서 "정답입니다!" 음성을 시작할 때까지의 시간. 0 이면 동시에 시작(아이폰에서 소리가 깨질 수 있음)
+  CHEER_VOLUME: 0.9,                     // 정답 환호성 소리 크기 (0~1). 아이폰은 기기 볼륨 버튼만 먹고 이 값은 무시됩니다.
+  CORRECT_VOICE_DELAY_MS: 1800,          // 환호성이 시작되고 나서 "정답입니다!" 음성을 시작할 때까지의 시간. 0 이면 동시에 시작(아이폰에서 소리가 깨질 수 있음)
 };
 
 /** 카테고리 표시 정보. JSON 에 새 카테고리를 추가해도 여기에 없으면 기본 모양(🎁)으로 자동 표시됩니다. */
@@ -55,7 +55,7 @@ const el = {
   btnReplay: $('btn-replay'),
   btnContinue: $('btn-continue'),
   btnQuit: $('btn-quit'),
-  clap: $('clap'),
+  cheer: $('cheer'),
   buzzer: $('buzzer'),
 };
 
@@ -370,8 +370,8 @@ function showCorrect() {
   el.resultText.textContent = '🎉 정답입니다! 🎉';
   el.resultSub.textContent = quiz.answer;
   launchStars();
-  playSfx(el.clap, CONFIG.CLAP_VOLUME);
-  // 박수와 음성을 동시에 시작하면 특히 아이폰에서 한쪽이 끊기거나 깨진다. 박수가 먼저 울린 뒤 음성을 시작한다.
+  playSfx(el.cheer, CONFIG.CHEER_VOLUME);
+  // 환호성과 음성을 동시에 시작하면 특히 아이폰에서 한쪽이 끊기거나 깨진다. 환호성이 먼저 울린 뒤 음성을 시작한다.
   setTimeout(() => {
     if (S.state === 'correct' && S.current === quiz) tts.speak('정답입니다!');
   }, CONFIG.CORRECT_VOICE_DELAY_MS);
@@ -446,7 +446,7 @@ function bindEvents() {
   el.btnStart.addEventListener('click', () => {
     // 사용자가 화면을 누른 이 순간에 소리를 열어 둔다.
     tts.unlock();
-    unlockSfx(el.clap);
+    unlockSfx(el.cheer);
     unlockSfx(el.buzzer);
     updateSupportBanner();
     showScreen('category');
