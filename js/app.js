@@ -17,9 +17,7 @@ const CONFIG = {
   DISTRACTORS_SAME_CATEGORY_FIRST: true, // 오답 보기를 같은 카테고리에서 먼저 뽑을지 (false 면 전체에서 무작위)
   SHOW_HINT_TEXT: false,                 // true 로 바꾸면 힌트를 화면에 글자로도 보여줍니다 (개발 확인용)
   BUZZER_VOLUME: 0.6,                    // 오답 부저 소리 크기 (0~1)
-  WRONG_VOICE_DELAY_MS: 650,             // 부저가 울린 뒤 "다시 한번 생각해 보세요" 음성을 시작할 때까지의 시간
   CHEER_VOLUME: 0.9,                     // 정답 환호성 소리 크기 (0~1). 아이폰은 기기 볼륨 버튼만 먹고 이 값은 무시됩니다.
-  CORRECT_VOICE_DELAY_MS: 1800,          // 환호성이 시작되고 나서 "정답입니다!" 음성을 시작할 때까지의 시간. 0 이면 동시에 시작(아이폰에서 소리가 깨질 수 있음)
 };
 
 /** 카테고리 표시 정보. JSON 에 새 카테고리를 추가해도 여기에 없으면 기본 모양(🎁)으로 자동 표시됩니다. */
@@ -351,14 +349,9 @@ function showWrong(btn) {
 
   setMessage('다시 한번 생각해 보세요 🤔', { retry: true });
   playSfx(el.buzzer, CONFIG.BUZZER_VOLUME);
-  // 부저 소리와 음성이 겹치지 않도록 부저가 울린 뒤에 말한다. 그 사이에 다른 보기를 누르면 이 안내는 취소된다.
-  const run = S.runId;
-  setTimeout(() => {
-    if (run === S.runId && S.state === 'choosing') tts.speak('다시 한번 생각해 보세요.');
-  }, CONFIG.WRONG_VOICE_DELAY_MS);
 }
 
-/** 맞았을 때: 정답 화면(컬러 그림 공개 + 별 + 박수 + 음성) */
+/** 맞았을 때: 정답 화면(컬러 그림 공개 + 별 + 환호성). 음성 안내는 없다. */
 function showCorrect() {
   const quiz = S.current;
   interrupt();
@@ -371,10 +364,6 @@ function showCorrect() {
   el.resultSub.textContent = quiz.answer;
   launchStars();
   playSfx(el.cheer, CONFIG.CHEER_VOLUME);
-  // 환호성과 음성을 동시에 시작하면 특히 아이폰에서 한쪽이 끊기거나 깨진다. 환호성이 먼저 울린 뒤 음성을 시작한다.
-  setTimeout(() => {
-    if (S.state === 'correct' && S.current === quiz) tts.speak('정답입니다!');
-  }, CONFIG.CORRECT_VOICE_DELAY_MS);
 }
 
 function launchStars() {
