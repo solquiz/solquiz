@@ -124,6 +124,9 @@ async function main() {
   const qImg = await imageExists('images/question.png');
   if (!qImg) box('warn', '문제 중에 보여줄 고정 그림(images/question.png)이 없어요', '<p>위쪽 무대에 ❓ 가 나와요. 그림을 <code>images/question.png</code> 로 넣거나 <code>js/app.js</code> 의 <code>QUESTION_IMAGE</code> 를 바꾸세요.</p>');
 
+  const bgImg = await imageExists('images/stage_bg.png');
+  if (!bgImg) box('warn', '문제 중 배경 그림(images/stage_bg.png)이 없어요', '<p>없으면 검정 배경으로 나와요. 배경을 쓰려면 <code>images/stage_bg.png</code> 이름(소문자 .png)으로 넣으세요. 다른 이름이면 <code>js/app.js</code> 의 <code>STAGE_BACKGROUND</code> 를 그 이름으로 바꾸세요.</p>');
+
   if (missingImgs.length) {
     // 비슷한 파일명 힌트: 대소문자/확장자 문제를 알려준다
     box('err', `이미지가 없는 문제 ${missingImgs.length}개`,

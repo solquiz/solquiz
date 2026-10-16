@@ -450,7 +450,9 @@ function applyStageBackground() {
   if (!CONFIG.STAGE_BACKGROUND) return;
   const probe = new Image();
   probe.onload = () => {
-    el.stage.style.setProperty('--stage-bg-image', `url("${CONFIG.STAGE_BACKGROUND}")`);
+    // CSS 변수 안의 상대 경로는 css/ 폴더 기준으로 해석되어(= css/images/…) 그림을 못 찾는다. 그래서 전체 주소로 넣는다.
+    const abs = new URL(CONFIG.STAGE_BACKGROUND, document.baseURI).href;
+    el.stage.style.setProperty('--stage-bg-image', `url("${abs}")`);
     el.stage.classList.add('has-bg');
   };
   probe.onerror = () => console.info(`[배경] ${CONFIG.STAGE_BACKGROUND} 파일이 없어서 검정 배경을 써요.`);
