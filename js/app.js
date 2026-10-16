@@ -92,7 +92,7 @@ function showScreen(name) {
 function setState(state) {
   S.state = state;
   el.screens.quiz.dataset.state = state; // CSS 가 이 값을 보고 보기/버튼/패널을 보여주거나 숨긴다
-  const headers = { readingHints: '잘 들어보세요 👂', choosing: '이게 뭘까요?' };
+  const headers = { readingHints: '잘 들어보세요 👂', choosing: '나는 누구일까요?' };
   el.quizHeader.textContent = headers[state] || '\u00A0';
   // SHOW_SILHOUETTE 가 꺼져 있으면 정답을 공개하기 전까지 무대를 숨긴다.
   el.stage.classList.toggle('hidden', !CONFIG.SHOW_SILHOUETTE && state !== 'correct');
