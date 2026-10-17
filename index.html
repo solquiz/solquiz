@@ -35,7 +35,11 @@
 
     <!-- 3. 퀴즈 화면 -->
     <section id="screen-quiz" class="screen screen-quiz" data-state="preparing">
-      <div id="quiz-header" class="quiz-header">&nbsp;</div>
+      <div class="quiz-top">
+        <div id="quiz-header" class="quiz-header">&nbsp;</div>
+        <!-- 문제를 읽는 중/고르는 중에만 보이는 "이 문제 건너뛰기" 버튼 (아래쪽 보기와 멀리 떨어진 오른쪽 위에 둠) -->
+        <button id="btn-skip" class="skip-btn" type="button">건너뛰기 ⏭</button>
+      </div>
 
       <!-- 검은 무대: 문제 중엔 검정 배경 + 흰 실루엣, 정답 공개 후엔 밝은 배경 + 컬러 그림 -->
       <div id="stage" class="stage">
