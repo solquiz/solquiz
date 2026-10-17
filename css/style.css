@@ -188,6 +188,42 @@ body {
   gap: 10px;
 }
 
+.quiz-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 건너뛰기: 문제가 나가는 중(힌트 읽기/보기 고르기)에만 보인다 */
+.skip-btn {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(100, 116, 139, 0.16);
+  color: var(--slate);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.skip-btn:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+#screen-quiz[data-state='preparing'] .skip-btn,
+#screen-quiz[data-state='readingHints'] .skip-btn,
+#screen-quiz[data-state='choosing'] .skip-btn {
+  display: block;
+}
+
 .quiz-header {
   min-height: 30px;
   text-align: center;
