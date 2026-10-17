@@ -53,6 +53,7 @@ const el = {
   btnReplay: $('btn-replay'),
   btnContinue: $('btn-continue'),
   btnQuit: $('btn-quit'),
+  btnSkip: $('btn-skip'),
   cheer: $('cheer'),
   buzzer: $('buzzer'),
 };
@@ -92,7 +93,7 @@ function showScreen(name) {
 function setState(state) {
   S.state = state;
   el.screens.quiz.dataset.state = state; // CSS 가 이 값을 보고 보기/버튼/패널을 보여주거나 숨긴다
-  const headers = { readingHints: '잘 들어보세요 👂', choosing: '나는 누구일까요?' };
+  const headers = { readingHints: '잘 들어보세요 👂', choosing: '이게 뭘까요?' };
   el.quizHeader.textContent = headers[state] || '\u00A0';
   // SHOW_SILHOUETTE 가 꺼져 있으면 정답을 공개하기 전까지 무대를 숨긴다.
   el.stage.classList.toggle('hidden', !CONFIG.SHOW_SILHOUETTE && state !== 'correct');
@@ -154,6 +155,7 @@ function startSession(selection) {
 
 function nextQuiz() {
   interrupt();
+  S.judging = false; // 보기 이름을 읽던 중에 넘어온 경우를 대비해 잠금 해제
   const pool = poolFor(S.selection);
   if (pool.length === 0) {
     quit();
@@ -443,6 +445,10 @@ function bindEvents() {
   el.btnReplay.addEventListener('click', replayHints);
   el.btnContinue.addEventListener('click', nextQuiz);
   el.btnQuit.addEventListener('click', quit);
+  // 지금 문제를 건너뛰고 다음 문제로 (읽던 음성은 즉시 멈춘다). 문제가 나가는 중에만 버튼이 보인다.
+  el.btnSkip.addEventListener('click', () => {
+    if (['preparing', 'readingHints', 'choosing'].includes(S.state)) nextQuiz();
+  });
 }
 
 /** 무대 배경 그림(STAGE_BACKGROUND)이 실제로 있을 때만 적용한다. 없으면 기존처럼 검정 배경. */
