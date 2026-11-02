@@ -17,18 +17,15 @@ const CONFIG = {
   DISTRACTORS_SAME_CATEGORY_FIRST: true, // 오답 보기를 같은 카테고리에서 먼저 뽑을지 (false 면 전체에서 무작위)
   SHOW_HINT_TEXT: false,                 // true 로 바꾸면 힌트를 화면에 글자로도 보여줍니다 (개발 확인용)
   BUZZER_VOLUME: 0.6,                    // 오답 부저 소리 크기 (0~1)
+  QUIZ_CATEGORY: 'car',                  // 설명 퀴즈/한글 퀴즈에서 사용할 문제의 카테고리 (quizzes.json 의 category 값)
   CHEER_VOLUME: 0.9,                     // 정답 환호성 소리 크기 (0~1). 아이폰은 기기 볼륨 버튼만 먹고 이 값은 무시됩니다.
 };
 
-/** 카테고리 표시 정보. JSON 에 새 카테고리를 추가해도 여기에 없으면 기본 모양(🎁)으로 자동 표시됩니다. */
-const CATEGORY_META = {
-  car: { label: '자동차', emoji: '🚗', color: '#3b82f6' },
-  dinosaur: { label: '공룡', emoji: '🦖', color: '#22c55e' },
-  object: { label: '물건', emoji: '🧸', color: '#a855f7' },
-};
-const EXTRA_COLORS = ['#ec4899', '#14b8a6', '#eab308', '#6366f1'];
-const RANDOM_META = { label: '랜덤', emoji: '🎲', color: '#f97316' };
-const RANDOM_KEY = '__random__';
+/** 시작 후 처음 고르는 퀴즈 종류 두 가지 */
+const MODES = [
+  { key: 'describe', emoji: '👂', label: '설명 퀴즈', sub: '힌트를 듣고 맞혀요', color: '#3b82f6' },
+  { key: 'hangul', emoji: '🔤', label: '한글 퀴즈', sub: '그림을 보고 이름을 찾아요', color: '#f97316' },
+];
 
 /* ============================================================
  * 화면 요소 모음
@@ -64,7 +61,7 @@ const el = {
  * ============================================================ */
 const S = {
   quizzes: [],
-  selection: null, // RANDOM_KEY 또는 카테고리 키
+  mode: 'describe', // 'describe'(설명 퀴즈: 힌트 음성 → 그림+이름 보기) | 'hangul'(한글 퀴즈: 그림 문제 → 이름 보기)
   queue: [],       // 이번 세션에서 아직 안 나온 문제들 (같은 문제 반복 방지)
   current: null,
   state: 'preparing',
@@ -93,7 +90,7 @@ function showScreen(name) {
 function setState(state) {
   S.state = state;
   el.screens.quiz.dataset.state = state; // CSS 가 이 값을 보고 보기/버튼/패널을 보여주거나 숨긴다
-  const headers = { readingHints: '잘 들어보세요 👂', choosing: '이게 뭘까요?' };
+  const headers = { readingHints: '잘 들어보세요 👂', choosing: S.mode === 'hangul' ? '이 그림의 이름은?' : '이게 뭘까요?' };
   el.quizHeader.textContent = headers[state] || '\u00A0';
   // SHOW_SILHOUETTE 가 꺼져 있으면 정답을 공개하기 전까지 무대를 숨긴다.
   el.stage.classList.toggle('hidden', !CONFIG.SHOW_SILHOUETTE && state !== 'correct');
@@ -112,42 +109,34 @@ function interrupt() {
 /* ============================================================
  * 카테고리 / 세션
  * ============================================================ */
-function categoryKeys() {
-  const seen = [];
-  S.quizzes.forEach((q) => {
-    if (!seen.includes(q.category)) seen.push(q.category);
-  });
-  const known = Object.keys(CATEGORY_META).filter((c) => seen.includes(c));
-  const unknown = seen.filter((c) => !CATEGORY_META[c]);
-  return [...known, ...unknown];
+/** 두 퀴즈가 쓰는 문제 목록 = 기존 자동차 퀴즈 목록 */
+function categoryPool() {
+  return S.quizzes.filter((q) => q.category === CONFIG.QUIZ_CATEGORY);
 }
 
-function metaOf(key, index) {
-  return CATEGORY_META[key] || { label: key, emoji: '🎁', color: EXTRA_COLORS[index % EXTRA_COLORS.length] };
-}
-
-function buildCategoryButtons() {
+function buildModeButtons() {
   el.grid.innerHTML = '';
-  const items = categoryKeys().map((key, i) => ({ key, ...metaOf(key, i) }));
-  items.push({ key: RANDOM_KEY, ...RANDOM_META });
-
-  items.forEach((item) => {
+  MODES.forEach((m) => {
     const btn = document.createElement('button');
     btn.className = 'category-card';
-    btn.style.background = item.color;
-    btn.innerHTML = `<span class="cat-emoji">${item.emoji}</span><span class="cat-label">${item.label}</span>`;
-    btn.addEventListener('click', () => startSession(item.key));
+    btn.style.background = m.color;
+    btn.innerHTML = `<span class="cat-emoji">${m.emoji}</span><span class="cat-label">${m.label}</span><span class="cat-sub">${m.sub}</span>`;
+    btn.addEventListener('click', () => startSession(m.key));
     el.grid.appendChild(btn);
   });
 }
 
-function poolFor(selection) {
-  return selection === RANDOM_KEY ? S.quizzes : S.quizzes.filter((q) => q.category === selection);
-}
-
-function startSession(selection) {
-  S.selection = selection;
-  S.queue = shuffle(poolFor(selection));
+function startSession(mode) {
+  const pool = categoryPool();
+  if (pool.length < Math.max(2, CONFIG.CHOICE_COUNT)) {
+    el.banner.textContent = `'${CONFIG.QUIZ_CATEGORY}' 문제가 ${pool.length}개뿐이에요. 사지선다를 만들려면 최소 ${Math.max(2, CONFIG.CHOICE_COUNT)}개가 필요해요. (quizzes.json 확인)`;
+    el.banner.classList.remove('hidden');
+    return;
+  }
+  el.banner.classList.add('hidden');
+  S.mode = mode;
+  el.screens.quiz.classList.toggle('mode-hangul', mode === 'hangul');
+  S.queue = shuffle(pool);
   S.current = null;
   showScreen('quiz');
   nextQuiz();
@@ -156,7 +145,7 @@ function startSession(selection) {
 function nextQuiz() {
   interrupt();
   S.judging = false; // 보기 이름을 읽던 중에 넘어온 경우를 대비해 잠금 해제
-  const pool = poolFor(S.selection);
+  const pool = categoryPool();
   if (pool.length === 0) {
     quit();
     return;
@@ -172,8 +161,14 @@ function nextQuiz() {
 
   S.current = S.queue.shift();
   renderQuiz(S.current);
-  setState('preparing');
-  playHints().catch(console.error);
+  if (S.mode === 'hangul') {
+    // 한글 퀴즈: 그림이 곧 문제이므로 힌트 음성 없이 바로 이름 보기를 고르게 한다.
+    setState('choosing');
+    setMessage('이름을 골라 보세요 👇');
+  } else {
+    setState('preparing');
+    playHints().catch(console.error);
+  }
 }
 
 function quit() {
@@ -210,8 +205,9 @@ function renderQuiz(quiz) {
   el.resultSub.textContent = '';
   setMessage('');
 
-  // 위쪽 무대 그림: 지정한 고정 그림(QUESTION_IMAGE) 또는 정답 그림의 실루엣
-  if (CONFIG.QUESTION_IMAGE) setStageImage(CONFIG.QUESTION_IMAGE, { fixed: true });
+  // 위쪽 무대 그림: 한글 퀴즈는 정답 그림(원래 색)이 곧 문제. 설명 퀴즈는 지정한 고정 그림(QUESTION_IMAGE) 또는 정답 그림의 실루엣
+  if (S.mode === 'hangul') setStageImage(`images/${quiz.imageName}.png`, { fixed: true });
+  else if (CONFIG.QUESTION_IMAGE) setStageImage(CONFIG.QUESTION_IMAGE, { fixed: true });
   else setStageImage(`images/${quiz.imageName}.png`, { fixed: false });
 
   buildChoiceCards(pickChoices(quiz), quiz);
@@ -232,7 +228,7 @@ function pickChoices(quiz) {
     (a.notWith || []).includes(b.id) ||
     (b.notWith || []).includes(a.id);
 
-  const others = S.quizzes.filter((q) => !clashes(quiz, q));
+  const others = categoryPool().filter((q) => !clashes(quiz, q)); // 보기도 자동차 퀴즈 목록에서만 뽑는다
   const pool = CONFIG.DISTRACTORS_SAME_CATEGORY_FIRST
     ? [...shuffle(others.filter((q) => q.category === quiz.category)), ...shuffle(others.filter((q) => q.category !== quiz.category))]
     : shuffle(others);
@@ -253,10 +249,13 @@ function buildChoiceCards(choices, correctQuiz) {
     btn.className = 'choice';
     btn.dataset.id = c.id;
 
+    const textOnly = S.mode === 'hangul'; // 한글 퀴즈: 그림이 정답을 알려주면 안 되므로 보기는 글자만
+    if (textOnly) btn.classList.add('text-only');
+
     const img = document.createElement('img');
     img.alt = '';
     img.draggable = false;
-    img.src = `images/${c.imageName}.png`;
+    if (!textOnly) img.src = `images/${c.imageName}.png`;
 
     const fallback = document.createElement('div');
     fallback.className = 'choice-fallback hidden';
@@ -270,8 +269,10 @@ function buildChoiceCards(choices, correctQuiz) {
     label.className = 'choice-label';
     label.textContent = c.answer;
 
-    btn.appendChild(img);
-    btn.appendChild(fallback);
+    if (!textOnly) {
+      btn.appendChild(img);
+      btn.appendChild(fallback);
+    }
     btn.appendChild(label);
     btn.addEventListener('click', () => pickChoice(c, btn, correctQuiz));
     el.choices.appendChild(btn);
@@ -360,7 +361,7 @@ function showCorrect() {
   setState('correct');
 
   // 문제 중에 고정 그림을 보여줬다면, 이제 정답의 진짜 그림(원래 색)으로 바꿔서 공개한다.
-  if (CONFIG.QUESTION_IMAGE) setStageImage(`images/${quiz.imageName}.png`, { fixed: false });
+  if (S.mode === 'describe' && CONFIG.QUESTION_IMAGE) setStageImage(`images/${quiz.imageName}.png`, { fixed: false });
 
   el.resultText.textContent = '🎉 정답입니다! 🎉';
   el.resultSub.textContent = quiz.answer;
@@ -472,7 +473,7 @@ async function init() {
     const { quizzes, problems } = await loadQuizzes();
     problems.forEach((p) => console.warn('[quizzes.json]', p));
     S.quizzes = quizzes;
-    buildCategoryButtons();
+    buildModeButtons();
     el.loadStatus.textContent = `퀴즈 ${quizzes.length}개 준비 완료!`;
     el.btnStart.disabled = false;
   } catch (err) {
