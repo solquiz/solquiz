@@ -169,6 +169,20 @@ body {
   transition: transform 0.15s;
 }
 
+.mode-grid {
+  grid-template-columns: 1fr;
+}
+
+.mode-grid .category-card {
+  height: 170px;
+}
+
+.cat-sub {
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.92;
+}
+
 .category-card:active {
   transform: scale(0.94);
 }
@@ -605,3 +619,35 @@ body {
 .gray { background: var(--gray); }
 .green { background: var(--green); }
 .slate { background: var(--slate); }
+
+
+/* ---------- 한글 퀴즈 (그림이 문제, 보기는 이름 글자만) ---------- */
+#screen-quiz.mode-hangul .stage {
+  height: 250px;
+  height: min(34dvh, 300px);
+  background: var(--stage-light);
+}
+
+#screen-quiz.mode-hangul .stage::before {
+  opacity: 0;
+}
+
+#screen-quiz.mode-hangul .image-fallback {
+  color: var(--slate);
+}
+
+.choice.text-only {
+  justify-content: center;
+  min-height: 92px;
+  min-height: clamp(84px, 13dvh, 120px);
+  padding: 14px 8px;
+}
+
+.choice.text-only .choice-label {
+  font-size: 28px;
+}
+
+/* 한글 퀴즈에는 힌트가 없으니 "힌트 다시 듣기"를 숨긴다 */
+#screen-quiz.mode-hangul .group-choosing {
+  display: none;
+}
