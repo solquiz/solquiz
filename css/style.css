@@ -204,6 +204,7 @@ body {
 
 .quiz-top {
   position: relative;
+  padding: 0 100px 0 0; /* 글자가 오른쪽 건너뛰기 버튼과 겹치지 않게 (좁은 세로 화면에서는 글자가 살짝 왼쪽으로 밀림) */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -650,4 +651,154 @@ body {
 /* 한글 퀴즈에는 힌트가 없으니 "힌트 다시 듣기"를 숨긴다 */
 #screen-quiz.mode-hangul .group-choosing {
   display: none;
+}
+
+/* ============================================================
+ * 가로로 긴 화면 (태블릿 가로, 폰 가로 등): 문제는 왼쪽, 보기는 오른쪽
+ * 세로 화면에서는 이 블록이 적용되지 않아 기존 모양 그대로입니다.
+ * 기준: 가로:세로 비율이 6:5 보다 넓을 때 (min-aspect-ratio)
+ * ============================================================ */
+@media (min-aspect-ratio: 6/5) {
+  /* 폰을 눕혔을 때 노치/둥근 모서리에 안 가리도록 좌우 여백을 안전 영역만큼 더한다 */
+  .screen {
+    padding-left: calc(env(safe-area-inset-left, 0px) + 20px);
+    padding-right: calc(env(safe-area-inset-right, 0px) + 20px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
+
+  /* 퀴즈 화면: 2칸 격자. 왼쪽 = 문제(그림), 오른쪽 = 보기 + 버튼 */
+  .screen-quiz.active {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 560px));
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'top top'
+      'stage choices'
+      'info actions';
+    justify-content: center;
+    align-items: stretch;
+    column-gap: 24px;
+    row-gap: 8px;
+  }
+
+  .screen-quiz > * {
+    max-width: none;
+  }
+
+  .screen-quiz .quiz-top { grid-area: top; }
+  .screen-quiz .stage { grid-area: stage; }
+  .screen-quiz .info-area { grid-area: info; }
+  .screen-quiz .choices { grid-area: choices; }
+  .screen-quiz .actions { grid-area: actions; }
+
+  /* 문제 그림은 남는 세로 공간을 꽉 채운다 (세로 화면용 고정 높이를 해제) */
+  #screen-quiz .stage,
+  #screen-quiz[data-state] .stage,
+  #screen-quiz.mode-hangul[data-state] .stage {
+    height: auto !important;
+    min-height: 0;
+  }
+
+  .quiz-top {
+    padding: 0 104px; /* 가로 화면은 폭이 넉넉하니 좌우 대칭으로 가운데 정렬 */
+  }
+
+  .quiz-header {
+    font-size: 20px;
+  }
+
+  /* 보기: 오른쪽 칸을 2×2 로 꽉 채우고, 그림은 카드 안에서 남는 높이만큼 */
+  .choices {
+    grid-auto-rows: minmax(0, 1fr);
+    min-height: 0;
+    gap: 10px;
+  }
+
+  .choice {
+    min-height: 0;
+    padding: 8px 6px 8px;
+    gap: 4px;
+  }
+
+  .choice img {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+  }
+
+  .choice-fallback {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .choice-label {
+    font-size: 18px;
+  }
+
+  .choice.text-only {
+    justify-content: center;
+    min-height: 0;
+  }
+
+  .choice.text-only .choice-label {
+    font-size: clamp(22px, 5.2dvh, 30px);
+  }
+
+  /* 버튼 영역: 오른쪽 아래. 보기와의 잘못 누름 방지 간격은 유지 */
+  .actions {
+    margin-top: 0;
+    padding-top: 14px;
+  }
+
+  .info-area {
+    min-height: 30px;
+  }
+
+  .wide-btn,
+  .wide-pill {
+    height: clamp(44px, 11dvh, 62px);
+  }
+
+  .group-choosing .wide-btn {
+    height: clamp(42px, 10dvh, 54px);
+  }
+
+  /* 정답 화면: 왼쪽 큰 그림, 오른쪽에 결과 문구와 버튼 */
+  #screen-quiz[data-state='correct'] {
+    grid-template-areas:
+      'top top'
+      'stage info'
+      'stage actions';
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  #screen-quiz[data-state='correct'] .info-area {
+    justify-content: center;
+  }
+
+  .result-text {
+    font-size: clamp(24px, 6dvh, 34px);
+  }
+
+  /* 메뉴(설명/한글 퀴즈): 가로 화면에서는 나란히 */
+  .mode-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mode-grid .category-card {
+    height: clamp(120px, 42dvh, 190px);
+  }
+
+  .screen-category {
+    justify-content: center;
+  }
+
+  .screen-category > * {
+    max-width: 760px;
+  }
+
+  .screen-title {
+    margin: 4px 0 8px;
+  }
 }
